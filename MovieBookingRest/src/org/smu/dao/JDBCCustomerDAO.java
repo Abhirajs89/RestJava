@@ -107,9 +107,19 @@ public class JDBCCustomerDAO implements CustomerDAO{
 	}
 
 	@Override
-	public void deleteCustomer(int id) {
-		// TODO Auto-generated method stub
-
+	public void deleteCustomer(int id) throws SQLException {
+		PreparedStatement preparedStatement = null;
+		String updateCustomerSQL = "DELETE from test.Customer WHERE id=?";
+		try {
+				preparedStatement = JDBC.getConnection().prepareStatement(updateCustomerSQL);
+				preparedStatement.setInt(1, id);
+				preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+		}
 	}
-
 }
