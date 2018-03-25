@@ -78,9 +78,32 @@ public class JDBCCustomerDAO implements CustomerDAO{
 	}
 
 	@Override
-	public Customer updateCustomer(Customer cust) {
-		// TODO Auto-generated method stub
-		return null;
+	public Customer updateCustomer(Customer cust) throws SQLException {
+		PreparedStatement preparedStatement = null;
+		String updateCustomerSQL = "UPDATE test.Customer SET firstName =?, lastName=?, city=?,province=?,country=?,postal=?,phone=?,email=?,address=? WHERE id=?";
+		try {
+				preparedStatement = JDBC.getConnection().prepareStatement(updateCustomerSQL);
+				
+				preparedStatement.setString(1,cust.getFirstName());
+				preparedStatement.setString(2,cust.getLastName());
+				preparedStatement.setString(3,cust.getCity());
+				preparedStatement.setString(4,cust.getProvince());
+				preparedStatement.setString(5,cust.getCountry());
+				preparedStatement.setString(6,cust.getPostal());
+				preparedStatement.setString(7,cust.getPhone());
+				preparedStatement.setString(8,cust.getEmail());
+				preparedStatement.setString(9,cust.getAddress());
+				preparedStatement.setInt(10, cust.getId());
+				
+				preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			if (preparedStatement != null) {
+				preparedStatement.close();
+			}
+		}
+		return cust;
 	}
 
 	@Override

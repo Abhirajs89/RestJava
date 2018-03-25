@@ -11,7 +11,7 @@ public interface CustomerDAO {
 	
 	Customer addCustomer(Customer cust) throws SQLException;
 	
-	Customer updateCustomer(Customer cust);
+	Customer updateCustomer(Customer cust) throws SQLException;
 	
 	void deleteCustomer(int id);
 }
