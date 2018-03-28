@@ -43,25 +43,23 @@ public class JDBCCreditDAO implements CreditDAO{
 	}
 
 	@Override
-	public Customer addCustomer(Customer cust) throws SQLException {
+	public CreditCard addCard(CreditCard card) throws SQLException {
 
 		PreparedStatement preparedStatement = null;
 		String insertCustomerSQL = "INSERT INTO test.Customer"
-				+ "(firstName, lastName, city,province,country,postal,phone,email,address) VALUES"
+				+ "VALUES"
 				+ "(?,?,?,?,?,?,?,?,?)";
 		try {
 			
 			preparedStatement = JDBC.getConnection().prepareStatement(insertCustomerSQL);
 			
-			preparedStatement.setString(1,cust.getFirstName());
-			preparedStatement.setString(2,cust.getLastName());
-			preparedStatement.setString(3,cust.getCity());
-			preparedStatement.setString(4,cust.getProvince());
-			preparedStatement.setString(5,cust.getCountry());
-			preparedStatement.setString(6,cust.getPostal());
-			preparedStatement.setString(7,cust.getPhone());
-			preparedStatement.setString(8,cust.getEmail());
-			preparedStatement.setString(9,cust.getAddress());
+			preparedStatement.setInt(1,card.getId());
+			preparedStatement.setInt(2,card.getCustomerID());
+			preparedStatement.setString(3,card.getName());
+			preparedStatement.setString(4,card.getCardType());
+			preparedStatement.setString(5,card.getCardNumber());
+			preparedStatement.setString(6,card.getPIN());
+			preparedStatement.setString(7,card.getExpiry());
 
 			preparedStatement.executeUpdate();
 
@@ -72,7 +70,7 @@ public class JDBCCreditDAO implements CreditDAO{
 				preparedStatement.close();
 			}
 		}
-		return cust;
+		return card;
 	}
 
 	@Override
