@@ -52,8 +52,7 @@ public class JDBCCustomerDAO implements CustomerDAO{
 				+ "(firstName, lastName, city,province,country,postal,phone,email,address) VALUES"
 				+ "(?,?,?,?,?,?,?,?,?)";
 		try {
-			
-			preparedStatement = JDBC.getConnection().prepareStatement(insertCustomerSQL);
+			preparedStatement = JDBC.getConnection().prepareStatement(insertCustomerSQL,PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			preparedStatement.setString(1,cust.getFirstName());
 			preparedStatement.setString(2,cust.getLastName());
@@ -65,8 +64,15 @@ public class JDBCCustomerDAO implements CustomerDAO{
 			preparedStatement.setString(8,cust.getEmail());
 			preparedStatement.setString(9,cust.getAddress());
 
-			preparedStatement.executeUpdate();
-
+			int insertcount = preparedStatement.executeUpdate();
+			if(insertcount>0) {
+				ResultSet rs =preparedStatement.getGeneratedKeys();
+				if (rs != null && rs.next()) {
+				   int  customerId = rs.getInt(1);
+				   cust.setId(customerId);
+				}
+			}
+			
 		} catch (SQLException e) {
 			System.out.println(e);
 		} finally {

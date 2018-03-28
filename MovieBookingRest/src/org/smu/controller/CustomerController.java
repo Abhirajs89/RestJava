@@ -39,12 +39,12 @@ public class CustomerController {
     public Response addCustomer(Customer cust) {
     	CustomerDAO dao = new JDBCCustomerDAO();
 		try {
-			 dao.addCustomer(cust);
+			cust = dao.addCustomer(cust);
 		} catch (SQLException e) {
 			System.out.println("ERROR while inserting Customer"+e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.status(Response.Status.OK).entity(cust).build();
     }
     
     @PUT
