@@ -26,6 +26,7 @@ public class CustomerController {
     public Response getCustomers() {
     	CustomerDAO dao = new JDBCCustomerDAO();
         List<Customer> listOfCustomers = dao.getAllCustomers();
+        System.out.println("first message");
         if(listOfCustomers.size() ==0) {
         	Error error = new Error();
     		error.setErrorMsg("No records found in the database");
