@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.smu.connection.JDBC;
 import org.smu.model.CreditCard;
-import org.smu.model.Customer;
 
 public class JDBCCreditDAO implements CreditDAO{
 
@@ -46,12 +45,12 @@ public class JDBCCreditDAO implements CreditDAO{
 	public CreditCard addCard(CreditCard card) throws SQLException {
 
 		PreparedStatement preparedStatement = null;
-		String insertCustomerSQL = "INSERT INTO test.Customer"
+		String insertCardSQL = "INSERT INTO test.Customer"
 				+ "VALUES"
 				+ "(?,?,?,?,?,?,?,?,?)";
 		try {
 			
-			preparedStatement = JDBC.getConnection().prepareStatement(insertCustomerSQL);
+			preparedStatement = JDBC.getConnection().prepareStatement(insertCardSQL);
 			
 			preparedStatement.setInt(1,card.getId());
 			preparedStatement.setInt(2,card.getCustomerID());
@@ -74,22 +73,19 @@ public class JDBCCreditDAO implements CreditDAO{
 	}
 
 	@Override
-	public Customer updateCustomer(Customer cust) throws SQLException {
+	public CreditCard updateCard(CreditCard card) throws SQLException {
 		PreparedStatement preparedStatement = null;
 		String updateCustomerSQL = "UPDATE test.Customer SET firstName =?, lastName=?, city=?,province=?,country=?,postal=?,phone=?,email=?,address=? WHERE id=?";
 		try {
 				preparedStatement = JDBC.getConnection().prepareStatement(updateCustomerSQL);
 				
-				preparedStatement.setString(1,cust.getFirstName());
-				preparedStatement.setString(2,cust.getLastName());
-				preparedStatement.setString(3,cust.getCity());
-				preparedStatement.setString(4,cust.getProvince());
-				preparedStatement.setString(5,cust.getCountry());
-				preparedStatement.setString(6,cust.getPostal());
-				preparedStatement.setString(7,cust.getPhone());
-				preparedStatement.setString(8,cust.getEmail());
-				preparedStatement.setString(9,cust.getAddress());
-				preparedStatement.setInt(10, cust.getId());
+				preparedStatement.setInt(1,card.getId());
+				preparedStatement.setInt(2,card.getCustomerID());
+				preparedStatement.setString(3,card.getName());
+				preparedStatement.setString(4,card.getCardType());
+				preparedStatement.setString(5,card.getCardNumber());
+				preparedStatement.setString(6,card.getPIN());
+				preparedStatement.setString(7,card.getExpiry());
 				
 				preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -99,15 +95,15 @@ public class JDBCCreditDAO implements CreditDAO{
 				preparedStatement.close();
 			}
 		}
-		return cust;
+		return card;
 	}
 
 	@Override
-	public void deleteCustomer(int id) throws SQLException {
+	public void deleteCard(int id) throws SQLException {
 		PreparedStatement preparedStatement = null;
-		String updateCustomerSQL = "DELETE from test.Customer WHERE id=?";
+		String updateCardSQL = "DELETE from test.CreditCard WHERE id=?";
 		try {
-				preparedStatement = JDBC.getConnection().prepareStatement(updateCustomerSQL);
+				preparedStatement = JDBC.getConnection().prepareStatement(updateCardSQL);
 				preparedStatement.setInt(1, id);
 				preparedStatement.executeUpdate();
 		} catch (SQLException e) {
