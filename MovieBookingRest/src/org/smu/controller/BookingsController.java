@@ -13,54 +13,53 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.smu.dao.CustomerDAO;
-import org.smu.dao.JDBCCustomerDAO;
-import org.smu.model.Customer;
+import org.smu.dao.BookingsDAO;
+import org.smu.dao.JDBCBookingsDAO;
+import org.smu.model.Bookings;
 import org.smu.model.Error;
 
-@Path("/Customers")
-public class CustomerController {
+@Path("/Bookings")
+public class BookingsController {
 
     @GET
     @Produces({ MediaType.APPLICATION_JSON})
-    public Response getCustomers() {
-    	CustomerDAO dao = new JDBCCustomerDAO();
-        List<Customer> listOfCustomers = dao.getAllCustomers();
-        System.out.println("first message");
-        if(listOfCustomers.size() ==0) {
+    public Response getBookings() {
+    	BookingsDAO dao = new JDBCBookingsDAO();
+        List<Bookings> listOfBookings = dao.getAllBookings();
+        if(listOfBookings.size() ==0) {
         	Error error = new Error();
     		error.setErrorMsg("No records found in the database");
         	return Response.status(Response.Status.NO_CONTENT).entity(error).build();
         }
-        return Response.status(Response.Status.OK).entity(listOfCustomers).build();
+        return Response.status(Response.Status.OK).entity(listOfBookings).build();
     }
     
     @POST
     @Produces({ MediaType.APPLICATION_JSON})
-    public Response addCustomer(Customer cust) {
-    	CustomerDAO dao = new JDBCCustomerDAO();
+    public Response addBookings(Bookings booking) {
+    	BookingsDAO dao = new JDBCBookingsDAO();
 		try {
-			cust = dao.addCustomer(cust);
+			 dao.addBookings(booking);
 		} catch (SQLException e) {
-			System.out.println("ERROR while inserting Customer"+e);
+			System.out.println("ERROR while inserting Booking information"+e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
-        return Response.status(Response.Status.OK).entity(cust).build();
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
     
     @PUT
     @Produces({ MediaType.APPLICATION_JSON})
-    public Response updateCustomer(Customer cust) {
-    	if(cust.getId()==0) {
+    public Response updateBookings(Bookings booking) {
+    	if(booking.getId()==0) {
     		Error error = new Error();
-    		error.setErrorMsg("Customer ID field required to Update Record");
+    		error.setErrorMsg("ID field required to Update Record");
     		return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
     	}
-    	CustomerDAO dao = new JDBCCustomerDAO();
+    	BookingsDAO dao = new JDBCBookingsDAO();
 		try {
-			 dao.updateCustomer(cust);
+			 dao.updateBookings(booking);
 		} catch (SQLException e) {
-			System.out.println("ERROR while updating Customer"+e);
+			System.out.println("ERROR while updating Booking"+e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 		return Response.status(Response.Status.NO_CONTENT).build();
@@ -69,17 +68,17 @@ public class CustomerController {
     @DELETE
     @Path("/{id}")
     @Produces({ MediaType.APPLICATION_JSON})
-    public Response deleteCustomer(@PathParam("id") int id) {
+    public Response deleteBookings(@PathParam("id") int id) {
     	if(id == 0) {
     		Error error = new Error();
-    		error.setErrorMsg("Customer ID field required to Update Record");
+    		error.setErrorMsg("ID field required to Update Record");
     		return Response.status(Response.Status.BAD_REQUEST).entity(error).build();
     	}
-    	CustomerDAO dao = new JDBCCustomerDAO();
+    	BookingsDAO dao = new JDBCBookingsDAO();
 		try {
-			 dao.deleteCustomer(id);
+			 dao.deleteBookings(id);
 		} catch (SQLException e) {
-			System.out.println("ERROR while deleting Customer"+e);
+			System.out.println("ERROR while deleting Booking information"+e);
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 		return Response.status(Response.Status.NO_CONTENT).build();
