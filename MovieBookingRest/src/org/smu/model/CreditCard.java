@@ -3,12 +3,12 @@ package org.smu.model;
 public class CreditCard {
 
 	private int Id;
-	private int CustomerID;
-	private String Name;
+	private int CustomerId;
+	private String name;
 	private String CardType;
 	private String CardNumber;
-	private String PIN;
-	private String Expiry;
+	private String SecurityPin;
+	private String ExpiryDate;
 	
 	public int getId() {
 		return Id;
@@ -16,17 +16,17 @@ public class CreditCard {
 	public void setId(int id) {
 		Id = id;
 	}
-	public int getCustomerID() {
-		return CustomerID;
+	public int getCustomerId() {
+		return CustomerId;
 	}
-	public void setCustomerID(int CustomerID) {
-		this.CustomerID = CustomerID;
+	public void setCustomerID(int CustomerId) {
+		this.CustomerId = CustomerId;
 	}
 	public String getName() {
-		return Name;
+		return name;
 	}
-	public void setName(String Name) {
-		this.Name = Name;
+	public void setName(String NameOnCard) {
+		this.name = NameOnCard;
 	}
 	public String getCardType() {
 		return CardType;
@@ -40,17 +40,17 @@ public class CreditCard {
 	public void setCardNumber(String CardNumber) {
 		this.CardNumber = CardNumber;
 	}
-	public String getPIN() {
-		return PIN;
+	public String getSecurityPin() {
+		return SecurityPin;
 	}
-	public void setPIN(String PIN) {
-		this.PIN = PIN;
+	public void setSecurityPin(String SecurityPin) {
+		this.SecurityPin = SecurityPin;
 	}
-	public String getExpiry() {
-		return Expiry;
+	public String getExpiryDate() {
+		return ExpiryDate;
 	}
-	public void setExpiry(String Expiry) {
-		this.Expiry = Expiry;
+	public void setExpiry(String ExpiryDate) {
+		this.ExpiryDate = ExpiryDate;
 	}
 	
 }
